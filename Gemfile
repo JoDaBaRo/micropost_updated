@@ -19,7 +19,6 @@ gem 'bootsnap',                   '1.4.6', require: false
 
 group :development, :test do
   gem 'sqlite3', '1.4.2'
-  gem 'byebug',  '11.1.3', platforms: [:mri, :mingw, :x64_mingw]
 end
 
 group :development do
@@ -27,6 +26,8 @@ group :development do
   gem 'listen',                '3.2.1'
   gem 'spring',                '2.1.0'
   gem 'spring-watcher-listen', '2.0.1'
+  gem 'pry'
+  gem 'pry-nav'
 end
 
 group :test do
