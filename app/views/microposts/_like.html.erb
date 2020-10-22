@@ -1,0 +1,14 @@
+<% pre_like = micropost.likes.find { |like| like.user_id == active_user.id} %>
+    <% if pre_like %>
+      <%= link_to "", data: { reflex: "click->UserReflex#like", micropost_id: micropost.id } do %>
+        <i class="fas fa-heart"></i>
+      <% end %>
+    <% else %>
+      <%= link_to "", data: { reflex: "click->UserReflex#like", micropost_id: micropost.id } do %>
+        <i class="far fa-heart"></i>
+      <% end %>
+    <% end %>
+
+    <div id="like-<%=micropost.id%>">
+    <%= micropost.likes.count %> <%= (micropost.likes.count) == 1 ? 'Like' : 'Likes'%>
+    </div>

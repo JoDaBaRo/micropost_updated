@@ -6,6 +6,7 @@ module SessionsHelper
     # Guard against session replay attacks.
     # See https://bit.ly/33UvK0w for more.
     session[:session_token] = user.session_token
+    cookies.permanent.encrypted[:user_id] = user.id
   end
 
   # Remembers a user in a persistent session.

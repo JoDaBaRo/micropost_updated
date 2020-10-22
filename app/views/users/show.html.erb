@@ -8,12 +8,16 @@
       </h1>
     </section>
     <section class="stats">
-      <%= render 'shared/stats' %>
+    <div id="stats-<%= @user.id %>">
+      <%= render 'shared/stats', user: @user %>
+     </div>
     </section>
   </aside>
   <div class="col-md-8">
+    <div id="follow-form-<%= "#{current_user&.id}-#{@user.id}" %>">
     <%= render 'follow_form' if logged_in? %>
-    <% if @user.microposts.any? %>
+    </div>
+    <% if @user.microposts.any? && logged_in? %>
       <h3>Microposts (<%= @user.microposts.count %>)</h3>
       <ol class="microposts">
         <%= render @microposts %>

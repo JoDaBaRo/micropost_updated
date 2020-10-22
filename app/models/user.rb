@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include CableReady::Broadcaster
   has_many :microposts, dependent: :destroy
   has_many :active_relationships, class_name:  "Relationship",
                                   foreign_key: "follower_id",
@@ -96,11 +97,13 @@ class User < ApplicationRecord
   # Follows a user.
   def follow(other_user)
     following << other_user unless self == other_user
+    refresh_followers_broadcaster(other_user)
   end
 
   # Unfollows a user.
   def unfollow(other_user)
     following.delete(other_user)
+    refresh_followers_broadcaster(other_user)
   end
 
   # Returns true if the current user is following the other user.
@@ -119,5 +122,26 @@ class User < ApplicationRecord
     def create_activation_digest
       self.activation_token  = User.new_token
       self.activation_digest = User.digest(activation_token)
+    end
+
+    def refresh_followers_broadcaster(user)
+      count_followers(user)
+      # switch_follower_button(user)
+    end
+
+    def count_followers(user)
+      cable_ready["users"].morph(
+        selector: "#stats-#{user.id}",
+        html: ApplicationController.render(partial: "shared/stats", locals: {user: user}), children_only: true
+      )
+      cable_ready.broadcast
+    end
+
+    def switch_follower_button(user)
+      cable_ready["users"].morph(
+        selector: "#follow-form-#{self.id}-#{user.id}",
+        html: ApplicationController.render(partial: "users/follow_form", locals: {active_user: self, user: user}), children_only: true
+      )
+      cable_ready.broadcast
     end
 end

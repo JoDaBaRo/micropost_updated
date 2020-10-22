@@ -8,7 +8,9 @@
       <span><b>Microposts:</b> <%= @user.microposts.count %></span>
     </section>
     <section class="stats">
-      <%= render 'shared/stats' %>
+      <div id="stats-<%= @user.id %>">
+        <%= render 'shared/stats', user: @user %>
+      </div>
       <% if @users.any? %>
         <div class="user_avatars">
           <% @users.each do |user| %>

@@ -6,19 +6,9 @@
     <%= image_tag micropost.display_image if micropost.image.attached? %>
   </span>
   <span class="timestamp">
-    <% pre_like = micropost.likes.find { |like| like.user_id == current_user.id} %>
-    <% if pre_like %>
-      <%= link_to micropost_like_path(micropost, pre_like), method: :delete do %>
-        <i class="fas fa-heart"></i>
-      <% end %>
-    <% else %>
-      <%= link_to micropost_likes_path(micropost), method: :post do %>
-        <i class="far fa-heart"></i>
-      <% end %>
-    <% end %>
-
-
-    <%= micropost.likes.count %> <%= (micropost.likes.count) == 1 ? 'Like' : 'Likes'%>
+    <div id="like-<%=micropost.id%>">
+      <%= render partial: "microposts/like", locals: {active_user: current_user, micropost: micropost} %>
+    </div>
     <br>
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
 
