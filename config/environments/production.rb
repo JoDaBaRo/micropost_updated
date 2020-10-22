@@ -61,7 +61,7 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
-  config.cache_store = :redis_cache_store, {driver: :hiredis, url: ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" }}
+  config.cache_store = :redis_cache_store, {driver: :hiredis, url: ENV.fetch("REDISTOGO_URL") { "redis://localhost:6379/1" }}
   config.session_store :cache_store,
     key: "_session",
     compress: true,
